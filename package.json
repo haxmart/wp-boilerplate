@@ -8,15 +8,25 @@
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
     "format": "wp-scripts format",
-    "packages-update": "wp-scripts packages-update"
+    "packages-update": "wp-scripts packages-update",
+    "format:biome": "biome format --write .",
+    "lint:biome": "biome lint .",
+    "check:biome": "biome check ."
   },
-  "keywords": ["wordpress", "theme", "tailwindcss", "acf", "gutenberg"],
+  "keywords": [
+    "wordpress",
+    "theme",
+    "tailwindcss",
+    "acf",
+    "gutenberg"
+  ],
   "author": "Your Name",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@wordpress/scripts": "^28.0.0",
+    "@biomejs/biome": "2.1.1",
     "@tailwindcss/postcss": "^4.0.0",
-    "tailwindcss": "^4.0.0"
-  },
-  "dependencies": {}
+    "@wordpress/scripts": "^28.0.0",
+    "tailwindcss": "^4.0.0",
+    "ultracite": "5.0.32"
+  }
 }

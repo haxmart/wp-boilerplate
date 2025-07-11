@@ -8,9 +8,9 @@
  */
 
 // Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Add your JavaScript initialization code here
-    console.log('Registry theme loaded');
+document.addEventListener('DOMContentLoaded', () => {
+  // Add your JavaScript initialization code here
+  // console.log('Registry theme loaded'); // Uncomment for debugging
 });
 
 // Export functions if needed for modules
