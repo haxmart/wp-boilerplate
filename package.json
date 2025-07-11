@@ -1,0 +1,22 @@
+{
+  "name": "registry-theme",
+  "version": "1.0.0",
+  "description": "A modern WordPress theme boilerplate with TailwindCSS v4 and ACF Gutenberg blocks infrastructure",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "format": "wp-scripts format",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "keywords": ["wordpress", "theme", "tailwindcss", "acf", "gutenberg"],
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@wordpress/scripts": "^28.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {}
+}
