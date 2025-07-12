@@ -1,4 +1,4 @@
-# Registry WordPress Theme Boilerplate
+# WordPress Boilerplate
 
 A modern WordPress theme boilerplate with TailwindCSS v4, ACF Gutenberg blocks, and professional code quality tools.
 
@@ -112,10 +112,10 @@ add_theme_support('custom-logo');
 add_theme_support('post-thumbnails');
 
 // Customize excerpt length
-function registry_excerpt_length($length) {
+function boilerplate_excerpt_length($length) {
     return 25; // Change excerpt length
 }
-add_filter('excerpt_length', 'registry_excerpt_length');
+add_filter('excerpt_length', 'boilerplate_excerpt_length');
 ```
 
 ## Creating ACF Blocks
@@ -130,10 +130,10 @@ mkdir acf/blocks/your-block
 
 ```json
 {
-  "name": "registry/your-block",
+  "name": "boilerplate/your-block",
   "title": "Your Block",
   "description": "Description of your block",
-  "category": "registry-blocks",
+  "category": "boilerplate-blocks",
   "icon": "admin-comments",
   "keywords": ["keyword1", "keyword2"],
   "acf": {
@@ -161,7 +161,7 @@ if (!$content) {
 }
 ?>
 
-<div id="<?php echo esc_attr($block['id']); ?>" class="px-5 py-10 md:px-10 md:py-16">
+<div id="<?php echo esc_attr($block['id']); ?>" class="px-5 py-14 md:px-10 md:py-20 lg:py-26 xl:py-30">
     <div class="max-w-7xl mx-auto">
         <?php if ($title) : ?>
             <h2 class="text-3xl font-bold mb-6"><?php echo esc_html($title); ?></h2>
@@ -204,7 +204,7 @@ Use ACF tabs to organize fields:
 Follow this pattern for consistent blocks:
 
 ```php
-<div id="<?php echo esc_attr($block['id']); ?>" class="px-5 py-10 md:px-10 md:py-16">
+<div id="<?php echo esc_attr($block['id']); ?>" class="px-5 py-14 md:px-10 md:py-20 lg:py-26 xl:py-30">
     <div class="max-w-7xl mx-auto">
         <div class="grid gap-y-8 md:gap-8 md:grid-cols-12">
             <!-- Block content -->
