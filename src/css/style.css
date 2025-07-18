@@ -1,9 +1,0 @@
-@import "tailwindcss";
-@import "./base/typography.css";
-
-@theme {
-  /* Custom theme variables can be added here */
-  /* Example: */
-  /* --color-brand-primary: #your-color; */
-  /* --font-family-heading: "Your Font", sans-serif; */
-}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ACF Blocks Registration
  *
@@ -22,33 +23,48 @@ if (!defined('ABSPATH')) {
  */
 function registry_register_blocks()
 {
-    // Register your ACF blocks here
-    // Example:
-    // register_block_type(get_theme_file_path('acf/blocks/hero'));
-    
-    // Check if blocks directory exists
-    $blocks_dir = get_theme_file_path('acf/blocks');
-    if (!is_dir($blocks_dir)) {
-        return;
-    }
-    
-    // Auto-register all blocks in the acf/blocks directory
-    // Uncomment the code below if you want automatic registration
-    
-    /*
-    $blocks = glob($blocks_dir . '/*', GLOB_ONLYDIR);
-    
-    foreach ($blocks as $block_dir) {
-        $block_json = $block_dir . '/block.json';
-        if (file_exists($block_json)) {
-            register_block_type($block_dir);
+    // Auto-register all blocks in the kit/ directory
+    $kit_dir = get_theme_file_path('kit');
+
+    if (is_dir($kit_dir)) {
+        // Use recursive iterator to find all block.json files
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($kit_dir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getFilename() === 'block.json') {
+                // Register the block using the directory containing block.json
+                $result = register_block_type($file->getPath());
+
+                // Debug: Log registration attempts (remove in production)
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('Attempting to register block at: ' . $file->getPath());
+                    if (is_wp_error($result)) {
+                        error_log('Block registration failed: ' . $result->get_error_message());
+                    }
+                }
+            }
         }
     }
-    */
+
+    // Also check if acf/blocks directory exists for legacy blocks
+    $blocks_dir = get_theme_file_path('acf/blocks');
+    if (is_dir($blocks_dir)) {
+        $blocks = glob($blocks_dir . '/*', GLOB_ONLYDIR);
+
+        foreach ($blocks as $block_dir) {
+            $block_json = $block_dir . '/block.json';
+            if (file_exists($block_json)) {
+                register_block_type($block_dir);
+            }
+        }
+    }
 }
 
-// Register blocks when ACF is ready
-add_action('acf/init', 'registry_register_blocks');
+// Register blocks on init with priority 5 (before default priority 10)
+add_action('init', 'registry_register_blocks', 5);
 
 /**
  * Add custom block categories
@@ -63,37 +79,7 @@ function registry_add_block_categories($categories, $post)
         'title' => __('Registry Blocks', 'registry'),
         'icon'  => 'layout',
     ));
-    
+
     return $categories;
 }
 add_filter('block_categories_all', 'registry_add_block_categories', 10, 2);
-
-/**
- * Enqueue block editor assets
- *
- * This function enqueues CSS and JS specifically for the block editor.
- */
-function registry_enqueue_block_editor_assets()
-{
-    // Enqueue editor styles if they exist
-    if (file_exists(get_theme_file_path('build/style-index.css'))) {
-        wp_enqueue_style(
-            'registry-editor-style',
-            get_theme_file_uri('build/style-index.css'),
-            array(),
-            wp_get_theme()->get('Version')
-        );
-    }
-    
-    // Enqueue editor scripts if they exist
-    if (file_exists(get_theme_file_path('build/index.js'))) {
-        wp_enqueue_script(
-            'registry-editor-script',
-            get_theme_file_uri('build/index.js'),
-            array('wp-blocks', 'wp-element', 'wp-editor'),
-            wp_get_theme()->get('Version'),
-            true
-        );
-    }
-}
-add_action('enqueue_block_editor_assets', 'registry_enqueue_block_editor_assets');

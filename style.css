@@ -1,11 +1,11 @@
 /*
-Theme Name: Registry
-Description: A modern WordPress theme boilerplate with TailwindCSS v4 and ACF Gutenberg blocks infrastructure.
+Theme Name: Boilerplate
+Description: WordPress theme boilerplate built to use with Tailwind V4 and shadcn universal items (registry.maxh.art)
 Version: 1.0.0
-Author: Your Name
+Author: Max Hart (maxh.art)
 License: GPL v2 or later
-Text Domain: registry
+Text Domain: boilerplate
 */
 
 /* This file is used by WordPress to identify the theme. */
-/* The actual styles are compiled from src/css/style.css to dist/style.css */
+/* The actual styles are compiled from src/global.css to dist/style.css */

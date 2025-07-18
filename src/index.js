@@ -8,7 +8,7 @@
  */
 
 // Import CSS files
-import './css/style.css';
+import './global.css';
 
 // Import JavaScript files
 import './js/theme.js';
