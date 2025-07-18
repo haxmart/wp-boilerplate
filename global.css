@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@import "./src/css/typescale/core.css";
+@import "./src/css/typescale/major-third.css";
+
+@theme {}
