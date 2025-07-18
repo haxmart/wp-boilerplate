@@ -23,26 +23,40 @@ if (!defined('ABSPATH')) {
  */
 function registry_register_blocks()
 {
-    // Auto-register all blocks in the kit/ directory
-    $kit_dir = get_theme_file_path('kit');
+    // Check if ACF is active
+    if (!function_exists('acf_register_block_type')) {
+        return;
+    }
 
-    if (is_dir($kit_dir)) {
+    // Auto-register all blocks in the registry/ directory
+    $registry_dir = get_theme_file_path('registry');
+
+    if (is_dir($registry_dir)) {
         // Use recursive iterator to find all block.json files
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($kit_dir, RecursiveDirectoryIterator::SKIP_DOTS),
+            new RecursiveDirectoryIterator($registry_dir, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
         );
 
         foreach ($iterator as $file) {
             if ($file->isFile() && $file->getFilename() === 'block.json') {
-                // Register the block using the directory containing block.json
-                $result = register_block_type($file->getPath());
-
-                // Debug: Log registration attempts (remove in production)
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('Attempting to register block at: ' . $file->getPath());
-                    if (is_wp_error($result)) {
-                        error_log('Block registration failed: ' . $result->get_error_message());
+                $block_dir = $file->getPath();
+                
+                // Read and parse the block.json to check if it's an ACF block
+                $block_json = json_decode(file_get_contents($file->getPathname()), true);
+                
+                if ($block_json && isset($block_json['acf'])) {
+                    // This is an ACF block, register it properly
+                    $result = register_block_type($block_dir);
+                    
+                    // Debug: Log registration attempts (remove in production)
+                    if (defined('WP_DEBUG') && WP_DEBUG) {
+                        error_log('Attempting to register ACF block: ' . $block_json['name'] . ' at ' . $block_dir);
+                        if (is_wp_error($result)) {
+                            error_log('Block registration failed: ' . $result->get_error_message());
+                        } elseif ($result) {
+                            error_log('ACF block registered successfully: ' . $block_json['name']);
+                        }
                     }
                 }
             }
@@ -63,8 +77,9 @@ function registry_register_blocks()
     }
 }
 
-// Register blocks on init with priority 5 (before default priority 10)
-add_action('init', 'registry_register_blocks', 5);
+// Call the registration function directly when this file is included
+// The file is already included within the acf/init hook in functions.php
+registry_register_blocks();
 
 /**
  * Add custom block categories

@@ -4,11 +4,11 @@
   "description": "A modern WordPress theme boilerplate with TailwindCSS v4 and ACF Gutenberg blocks infrastructure",
   "scripts": {
     "build": "wp-scripts build",
-    "start": "wp-scripts start",
+    "dev": "wp-scripts start",
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
     "format": "wp-scripts format",
-    "packages-update": "wp-scripts packages-update",
+    "packages-update": "wp-scripts packages-update"
   },
   "author": "Max Hart",
   "license": "GPL-2.0-or-later",
